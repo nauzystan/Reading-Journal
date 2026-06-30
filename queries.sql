@@ -1,0 +1,10 @@
+CREATE TABLE books (
+id SERIAL PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+author VARCHAR(255) NOT NULL,
+cover_id VARCHAR(50),
+notes TEXT,
+rating INTEGER CHECK (rating >= 1 AND rating <= 10),
+date_added TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+date_read DATE
+)

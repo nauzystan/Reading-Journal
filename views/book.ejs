@@ -1,0 +1,75 @@
+<%- include("partials/header") %>
+
+    <div class="container">
+
+        <article class="single-book">
+
+            <div class="single-cover">
+
+                <% if(book.cover_id){ %>
+
+                    <img src="https://covers.openlibrary.org/b/id/<%= book.cover_id %>-L.jpg" alt="<%= book.title %>">
+
+                    <% } else { %>
+
+                        <div class="no-cover">
+                            No Cover Available
+                        </div>
+
+                        <% } %>
+
+            </div>
+
+            <div class="single-content">
+
+                <h1>
+                    <%= book.title %>
+                </h1>
+
+                <h3>
+                    <%= book.author %>
+                </h3>
+
+                <p class="rating">
+                    ⭐ <%= book.rating %>/10
+                </p>
+
+                <div class="dates">
+
+                    <p>
+                        📖 Read:
+                        <%= book.date_read ? new Date(book.date_read).toLocaleDateString() : "N/A" %>
+                    </p>
+
+                    <p>
+                        ➕ Added:
+                        <%= new Date(book.date_added).toLocaleDateString() %>
+                    </p>
+
+                </div>
+
+                <div class="full-notes">
+
+                    <%= book.notes %>
+
+                </div>
+
+                <div class="actions">
+
+                    <a href="/edit/<%= book.id %>" class="btn-edit">
+                        Edit
+                    </a>
+
+                    <a href="/" class="btn-back">
+                        Back to Library
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+    <%- include("partials/footer") %>

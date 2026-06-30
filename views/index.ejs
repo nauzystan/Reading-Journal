@@ -1,0 +1,195 @@
+<%- include("partials/header") %>
+
+    <div class="container">
+
+        <section class="hero">
+
+            <h1>My Library</h1>
+
+            <p>
+                Track books you've read and keep detailed notes about them.
+            </p>
+
+        </section>
+
+        <section class="stats-section">
+
+            <div class="stat-card">
+                <h2>
+                    <%= totalBooks %>
+                </h2>
+                <p>Books Read</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>
+                    <%= averageRating %>
+                </h2>
+                <p>Average Rating</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>
+                    <%= latestBook %>
+                </h2>
+                <p>Latest Addition</p>
+            </div>
+
+        </section>
+
+
+        <p class="library-subtitle">
+            Your personal reading archive and review collection.
+        </p>
+
+        <section class="sort-section">
+
+            <form action="/" method="GET">
+
+                <select name="sort" onchange="this.form.submit()">
+
+                    <option value="recency" <%=sortChoice==="recency" ? "selected" : "" %>>
+                        Most Recently Read
+                    </option>
+
+                    <option value="rating" <%=sortChoice==="rating" ? "selected" : "" %>>
+                        Highest Rated
+                    </option>
+
+                    <option value="title" <%=sortChoice==="title" ? "selected" : "" %>>
+                        Title A-Z
+                    </option>
+
+                </select>
+
+            </form>
+
+        </section>
+
+        <div class="library-search">
+            <input type="text" id="librarySearch" placeholder="Search your library...">
+        </div>
+
+        <section class="books-grid">
+
+            <% books.forEach(book=> { %>
+
+                <article class="book-card">
+
+                    <div class="book-cover">
+
+                        <% if(book.cover_id){ %>
+
+                            <img src="https://covers.openlibrary.org/b/id/<%= book.cover_id %>-L.jpg"
+                                alt="<%= book.title %>">
+
+                            <% } else { %>
+
+                                <div class="no-cover">
+                                    No Cover Available
+                                </div>
+
+                                <% } %>
+
+                    </div>
+
+                    <div class="book-info">
+
+                        <h2>
+                            <%= book.title %>
+                        </h2>
+
+                        <p class="author">
+                            <%= book.author %>
+                        </p>
+
+                        <p class="rating">
+                            ⭐ <%= book.rating %>/10
+                        </p>
+
+                        <div class="dates">
+
+                            <% if(book.date_read){ %>
+
+                                <p>
+                                    📖 Read:
+                                    <%= new Date(book.date_read).toLocaleDateString() %>
+                                </p>
+
+                                <% } else { %>
+
+                                    <p class="currently-reading">
+                                        📖 Currently Reading
+                                    </p>
+
+                                    <% } %>
+
+                                        <p>
+                                            ➕ Added:
+                                            <%= book.relativeAdded %>
+                                        </p>
+
+                        </div>
+
+                        <div class="preview">
+
+                            <%= book.notes.length> 180
+                                ? book.notes.substring(0,180) + "..."
+                                : book.notes %>
+
+                        </div>
+
+                        <div class="card-actions">
+
+                            <a href="/book/<%= book.id %>" class="read-btn">
+                                Read Full Notes
+                            </a>
+
+                            <a href="/edit/<%= book.id %>" class="edit-btn">
+                                Edit
+                            </a>
+
+                            <form action="/delete/<%= book.id %>" method="POST">
+
+                                <button type="submit" class="btn-delete">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <% }) %>
+
+        </section>
+
+    </div>
+    <script>
+        const searchInput =
+            document.getElementById("librarySearch");
+
+        searchInput.addEventListener("input", () => {
+
+            const value =
+                searchInput.value.toLowerCase();
+
+            document
+                .querySelectorAll(".book-card")
+                .forEach(card => {
+
+                    const text =
+                        card.innerText.toLowerCase();
+
+                    card.style.display =
+                        text.includes(value)
+                            ? ""
+                            : "none";
+                });
+        });
+    </script>
+
+    <%- include("partials/footer") %>

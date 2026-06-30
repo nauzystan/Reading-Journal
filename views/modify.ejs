@@ -1,0 +1,64 @@
+<%- include("partials/header") %>
+
+    <div class="container">
+
+        <section class="form-page">
+
+            <h1 class="form-title">
+                <%= bookData ? "✏️ Edit Book Review" : "📚 Add New Book" %>
+            </h1>
+
+            <a href="/" class="back-link">← Back to Library</a>
+            <form action="<%= bookData ? '/edit/' + bookData.id : '/add' %>" method="POST" class="book-form">
+
+                <label>Title</label>
+
+                <input type="text" id="bookSearch" name="title" value="<%= bookData ? bookData.title : '' %>" required>
+
+                <div id="searchResults"></div>
+
+                <label>Author</label>
+
+                <input type="text" name="author" value="<%= bookData ? bookData.author : '' %>" required>
+
+                <!-- <label>Cover ID</label> -->
+
+                <input type="hidden" name="coverId" value="<%= bookData ? bookData.cover_id : '' %>">
+
+                <div id="coverPreview"></div>
+
+                <label>Rating (1-10)</label>
+
+                <input type="number" min="1" max="20" name="rating" value="<%= bookData ? bookData.rating : '' %>"
+                    required>
+
+                <label>Date Read</label>
+
+                <input type="date" name="dateRead" value="<%= bookData && bookData.date_read
+          ? new Date(bookData.date_read).toISOString().split('T')[0]
+          : '' %>">
+
+                <label>Your Notes</label>
+
+                <p class="notes-help">
+                    Share your thoughts, favourite quotes, lessons learned, or a full review.
+                </p>
+
+                <textarea name="notes" rows="30" required><%= bookData ? bookData.notes : '' %></textarea>
+                <p id="charCount">0 characters</p>
+
+                <button type="submit" class="btn-save">
+
+                    <%= bookData ? "Update Review" : "Save Review" %>
+
+                </button>
+
+            </form>
+
+        </section>
+
+    </div>
+
+    <script src="/js/search.js"></script>
+
+    <%- include("partials/footer") %>
