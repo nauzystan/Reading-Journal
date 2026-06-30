@@ -1,64 +1,147 @@
 <%- include("partials/header") %>
 
-    <div class="container">
+<div class="container">
 
-        <section class="form-page">
+    <!-- ======================
+         ADD / EDIT BOOK FORM
+         ====================== -->
 
-            <h1 class="form-title">
-                <%= bookData ? "✏️ Edit Book Review" : "📚 Add New Book" %>
-            </h1>
+    <section class="form-page">
 
-            <a href="/" class="back-link">← Back to Library</a>
-            <form action="<%= bookData ? '/edit/' + bookData.id : '/add' %>" method="POST" class="book-form">
+        <!-- Dynamic page title based on whether
+             user is creating or editing a review -->
 
-                <label>Title</label>
+        <h1 class="form-title">
+            <%= bookData ? "✏️ Edit Book Review" : "📚 Add New Book" %>
+        </h1>
 
-                <input type="text" id="bookSearch" name="title" value="<%= bookData ? bookData.title : '' %>" required>
+        <!-- Navigation back to homepage -->
 
-                <div id="searchResults"></div>
+        <a href="/" class="back-link">← Back to Library</a>
 
-                <label>Author</label>
+        <!-- Form submits to either
+             /add or /edit/:id -->
 
-                <input type="text" name="author" value="<%= bookData ? bookData.author : '' %>" required>
+        <form action="<%= bookData ? '/edit/' + bookData.id : '/add' %>"
+              method="POST"
+              class="book-form">
 
-                <!-- <label>Cover ID</label> -->
+            <!-- ======================
+                 BOOK TITLE SEARCH
+                 Uses Open Library API
+                 ====================== -->
 
-                <input type="hidden" name="coverId" value="<%= bookData ? bookData.cover_id : '' %>">
+            <label>Title</label>
 
-                <div id="coverPreview"></div>
+            <input
+                type="text"
+                id="bookSearch"
+                name="title"
+                value="<%= bookData ? bookData.title : '' %>"
+                required>
 
-                <label>Rating (1-10)</label>
+            <!-- Live search results appear here -->
 
-                <input type="number" min="1" max="20" name="rating" value="<%= bookData ? bookData.rating : '' %>"
-                    required>
+            <div id="searchResults"></div>
 
-                <label>Date Read</label>
+            <!-- ======================
+                 AUTHOR
+                 ====================== -->
 
-                <input type="date" name="dateRead" value="<%= bookData && bookData.date_read
+            <label>Author</label>
+
+            <input
+                type="text"
+                name="author"
+                value="<%= bookData ? bookData.author : '' %>"
+                required>
+
+            <!-- ======================
+                 COVER ID
+                 Hidden because it is
+                 automatically filled
+                 from Open Library search
+                 ====================== -->
+
+            <!-- <label>Cover ID</label> -->
+
+            <input
+                type="hidden"
+                name="coverId"
+                value="<%= bookData ? bookData.cover_id : '' %>">
+
+            <!-- Cover preview appears here -->
+
+            <div id="coverPreview"></div>
+
+            <!-- ======================
+                 RATING
+                 ====================== -->
+
+            <label>Rating (1-10)</label>
+
+            <input
+                type="number"
+                min="1"
+                max="20"
+                name="rating"
+                value="<%= bookData ? bookData.rating : '' %>"
+                required>
+
+            <!-- ======================
+                 DATE FINISHED READING
+                 Optional field
+                 ====================== -->
+
+            <label>Date Read</label>
+
+            <input
+                type="date"
+                name="dateRead"
+                value="<%= bookData && bookData.date_read
           ? new Date(bookData.date_read).toISOString().split('T')[0]
           : '' %>">
 
-                <label>Your Notes</label>
+            <!-- ======================
+                 REVIEW / NOTES
+                 ====================== -->
 
-                <p class="notes-help">
-                    Share your thoughts, favourite quotes, lessons learned, or a full review.
-                </p>
+            <label>Your Notes</label>
 
-                <textarea name="notes" rows="30" required><%= bookData ? bookData.notes : '' %></textarea>
-                <p id="charCount">0 characters</p>
+            <p class="notes-help">
+                Share your thoughts, favourite quotes, lessons learned, or a full review.
+            </p>
 
-                <button type="submit" class="btn-save">
+            <textarea
+                name="notes"
+                rows="30"
+                required><%= bookData ? bookData.notes : '' %></textarea>
 
-                    <%= bookData ? "Update Review" : "Save Review" %>
+            <!-- Live character counter -->
 
-                </button>
+            <p id="charCount">0 characters</p>
 
-            </form>
+            <!-- ======================
+                 SUBMIT BUTTON
+                 ====================== -->
 
-        </section>
+            <button type="submit" class="btn-save">
 
-    </div>
+                <%= bookData ? "Update Review" : "Save Review" %>
 
-    <script src="/js/search.js"></script>
+            </button>
 
-    <%- include("partials/footer") %>
+        </form>
+
+    </section>
+
+</div>
+
+<!-- ======================
+     SEARCH + COVER PREVIEW
+     + CHARACTER COUNTER
+     ====================== -->
+
+<script src="/js/search.js"></script>
+
+<%- include("partials/footer") %>
