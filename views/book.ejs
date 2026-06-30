@@ -1,75 +1,100 @@
 <%- include("partials/header") %>
 
-    <div class="container">
+<div class="container">
 
-        <article class="single-book">
+    <!-- ======================
+         SINGLE BOOK DETAILS PAGE
+         ====================== -->
 
-            <div class="single-cover">
+    <article class="single-book">
 
-                <% if(book.cover_id){ %>
+        <!-- ======================
+             BOOK COVER
+             ====================== -->
 
-                    <img src="https://covers.openlibrary.org/b/id/<%= book.cover_id %>-L.jpg" alt="<%= book.title %>">
+        <div class="single-cover">
 
-                    <% } else { %>
+            <% if(book.cover_id){ %>
 
-                        <div class="no-cover">
-                            No Cover Available
-                        </div>
+                <img src="https://covers.openlibrary.org/b/id/<%= book.cover_id %>-L.jpg"
+                    alt="<%= book.title %>">
 
-                        <% } %>
+            <% } else { %>
 
-            </div>
+                <div class="no-cover">
+                    No Cover Available
+                </div>
 
-            <div class="single-content">
+            <% } %>
 
-                <h1>
-                    <%= book.title %>
-                </h1>
+        </div>
 
-                <h3>
-                    <%= book.author %>
-                </h3>
+        <!-- ======================
+             BOOK INFORMATION
+             ====================== -->
 
-                <p class="rating">
-                    ⭐ <%= book.rating %>/10
+        <div class="single-content">
+
+            <h1>
+                <%= book.title %>
+            </h1>
+
+            <h3>
+                <%= book.author %>
+            </h3>
+
+            <p class="rating">
+                ⭐ <%= book.rating %>/10
+            </p>
+
+            <!-- ======================
+                 READING DATES
+                 ====================== -->
+
+            <div class="dates">
+
+                <p>
+                    📖 Read:
+                    <%= book.date_read ? new Date(book.date_read).toLocaleDateString() : "N/A" %>
                 </p>
 
-                <div class="dates">
-
-                    <p>
-                        📖 Read:
-                        <%= book.date_read ? new Date(book.date_read).toLocaleDateString() : "N/A" %>
-                    </p>
-
-                    <p>
-                        ➕ Added:
-                        <%= new Date(book.date_added).toLocaleDateString() %>
-                    </p>
-
-                </div>
-
-                <div class="full-notes">
-
-                    <%= book.notes %>
-
-                </div>
-
-                <div class="actions">
-
-                    <a href="/edit/<%= book.id %>" class="btn-edit">
-                        Edit
-                    </a>
-
-                    <a href="/" class="btn-back">
-                        Back to Library
-                    </a>
-
-                </div>
+                <p>
+                    ➕ Added:
+                    <%= new Date(book.date_added).toLocaleDateString() %>
+                </p>
 
             </div>
 
-        </article>
+            <!-- ======================
+                 FULL REVIEW / NOTES
+                 ====================== -->
 
-    </div>
+            <div class="full-notes">
 
-    <%- include("partials/footer") %>
+                <%= book.notes %>
+
+            </div>
+
+            <!-- ======================
+                 BOOK ACTIONS
+                 ====================== -->
+
+            <div class="actions">
+
+                <a href="/edit/<%= book.id %>" class="btn-edit">
+                    Edit
+                </a>
+
+                <a href="/" class="btn-back">
+                    Back to Library
+                </a>
+
+            </div>
+
+        </div>
+
+    </article>
+
+</div>
+
+<%- include("partials/footer") %>
